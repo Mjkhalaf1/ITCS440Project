@@ -42,8 +42,8 @@ k = 0
 for i in mazeBlocks.values():
     print(i[0], end=" ")
     k += 1
-    if k == 6:
+    if k == mazeSize:
         print("")
         k = 0
     
-    
+# Manhattan distance as a hueristic value 
