@@ -46,4 +46,4 @@ for i in mazeBlocks.values():
         print("")
         k = 0
     
-# Manhattan distance as a hueristic value 
+# Manhattan distance as a hueristic value, Ali will do it :)
