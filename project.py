@@ -47,3 +47,7 @@ for i in mazeBlocks.values():
         k = 0
     
 # Manhattan distance as a hueristic value, Ali will do it :)
+
+
+
+# starting with A*
