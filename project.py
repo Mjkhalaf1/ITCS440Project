@@ -1,8 +1,9 @@
 import random
-mazeSize = 6
+mazeSize = 8
 mazeBlocks = {}
-# create a 6x6 maze grid full of obstacles. Each block will hold two values (0 for obstacle or 1 passage)
-# initially second value will be -1. then this value  will hold the heuristic value.
+# create a 8x8 maze grid full of obstacles. A key-value pair will be assigned to every block of this maze.
+# The key is the index of this block, and the value is a list of two values.
+# The first value of the list is either 0 (obstacle) or 1 (passage). The second value is heuristic value (initially -1).
 for i in range(1, mazeSize + 1):
     for j in range(1, mazeSize + 1):
         mazeBlocks[(i,j)] = [0,-1]
