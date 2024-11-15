@@ -38,15 +38,34 @@ while not final:
     else:
         stack.pop()
 # print the current 6x6 maze        
-k = 0        
+k = 0
 for i in mazeBlocks.values():
     print(i[0], end=" ")
     k += 1
     if k == mazeSize:
         print("")
         k = 0
+
+print("\n")
     
 # Manhattan distance as a hueristic value, Ali will do it :)
+#Manhattan distance array
+MD ={}
+
+for i in range(1, mazeSize + 1):
+    for j in range(1, mazeSize + 1):
+        MD[(i,j)] = abs(i - mazeSize) + abs(j - mazeSize)
+
+# Print maze in terms of huerstic values
+
+for i in MD.values():
+    print(i, end=" ")
+    k += 1
+    if k%mazeSize==0:
+        print("\n",end=" ")
+
+    if k == mazeSize*mazeSize:
+        exit()
 
 
 
