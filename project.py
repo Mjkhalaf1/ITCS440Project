@@ -55,7 +55,8 @@ for i in range(1, mazeSize + 1):
     for j in range(1, mazeSize + 1):
         mazeBlocks[(i,j)][1] = abs(i - mazeSize) + abs(j - mazeSize)
 
-# Print maze in terms of huerstic values
+'''
+Print maze in terms of huerstic values
 k = 0
 for i in mazeBlocks.values():
     print(i[1], end=" ")
@@ -63,6 +64,7 @@ for i in mazeBlocks.values():
     if k == mazeSize:
         print("")
         k = 0
+'''
 
 
 
