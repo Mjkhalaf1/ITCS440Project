@@ -9,7 +9,7 @@ for i in range(1, mazeSize + 1):
         mazeBlocks[(i,j)] = [0,-1]
 
         
-# implement DFS to create a path from top left (1,1)[satrting state] to bottom right (6,6)
+# implement DFS to create a path from top left (1,1)[satrting state] to bottom right (8,8)
         
 start = (1,1)
 mazeBlocks[start][0] = 1
@@ -38,16 +38,31 @@ while not final:
             final = True 
     else:
         stack.pop()
-# print the current 6x6 maze        
-k = 0        
+# print the current 8x8 maze
+k = 0
 for i in mazeBlocks.values():
     print(i[0], end=" ")
     k += 1
     if k == mazeSize:
         print("")
         k = 0
+
+print("\n")
     
 # Manhattan distance as a hueristic value, Ali will do it :)
+
+for i in range(1, mazeSize + 1):
+    for j in range(1, mazeSize + 1):
+        mazeBlocks[(i,j)][1] = abs(i - mazeSize) + abs(j - mazeSize)
+
+# Print maze in terms of huerstic values
+k = 0
+for i in mazeBlocks.values():
+    print(i[1], end=" ")
+    k += 1
+    if k == mazeSize:
+        print("")
+        k = 0
 
 
 
