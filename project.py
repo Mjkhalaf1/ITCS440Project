@@ -8,10 +8,6 @@ for i in range(1, mazeSize + 1):
     for j in range(1, mazeSize + 1):
         mazeBlocks[(i,j)] = [0,-1]
 
-#print(mazeBlocks) 
-
-goal = 0
-initial = 0
 def mazeGenerator():
     for i in range(1,5+1):  
         obstacle = random.randint(1,3)
@@ -32,8 +28,10 @@ def mazeGenerator():
         if(mazeBlocks[(5,goal)][0]) == 0:
             mazeBlocks[(5,goal)][0] = "G"
             break
-# printing the maze
+
 mazeGenerator()
+
+# printing the maze
 k = 0
 for i in mazeBlocks.values():
     print(i[0], end=" ")
@@ -41,7 +39,6 @@ for i in mazeBlocks.values():
     if k == mazeSize:
         print("")
         k = 0
-
 print("\n")
 
 goal= 0
@@ -53,56 +50,62 @@ initial = 0
 for i,j in mazeBlocks.items():
     
     if(mazeBlocks[i][0] == "I"):
-        initial = i[0]
-        
-        
-start = (1,initial)
-stack = []
-stack.append(start)
-final = False
-while not final:
-    temp = []
-    # Specify the indexes of the last visited node
-    i,j = stack[len(stack)-1][0] , stack[len(stack)-1][1]
-    # Add the neighbours to the temp list if they exist and they are obstacles
-    if (i+1,j) in mazeBlocks and mazeBlocks[(i+1,j)][0] == 1 and mazeBlocks[(i+1,j)][1] != 2:
-        temp.append((i+1,j))
-    if (i-1,j) in mazeBlocks and mazeBlocks[(i-1,j)][0] == 1 and mazeBlocks[(i+1,j)][1] != 2:
-        temp.append((i-1,j))
-    if (i,j+1) in mazeBlocks and mazeBlocks[(i,j+1)][0] == 1 and mazeBlocks[(i+1,j)][1] != 2:
-        temp.append((i,j+1))
-    if (i,j-1) in mazeBlocks and mazeBlocks[(i,j-1)][0] == 1 and mazeBlocks[(i+1,j)][1] != 2:
-        temp.append((i,j-1))
-    # if there are no neighbours that are obstacles, do not visit a new node and remove last visited node
-    if temp:
-        randomNode = random.choice(temp)
-        mazeBlocks[randomNode][1] = 2
-        stack.append(randomNode)   
-        if randomNode == (5,goal):
-            final = True 
-            print("We have reached to the goal")
-    else:
-        break
-'''
+        initial = i[1]
+
+      
+def dfs():
+    stack = []
+    stack.append((1,initial))
+    while stack:
+        # Give me the index of the last visited node
+        i,j = stack[(len(stack)-1)][0] , stack[(len(stack)-1)][1]
+        # if it is the goal, print we have a goal:
+        if mazeBlocks[(i,j)][0] == "G":
+            return True
+        # mark it as visited(2 for visited)
+        mazeBlocks[(i,j)][1] = 2
+        # let's initialize temp to know if there is any valid neighbour
+        temp = []
+        # Right neighbour
+        if (i,j+1) in mazeBlocks and (mazeBlocks[(i,j+1)][0] == 1 or mazeBlocks[(i,j+1)][0] == "G") and mazeBlocks[(i,j+1)][1] != 2:
+            temp.append((i,j+1))
+        # Left neighbour
+        if (i,j-1) in mazeBlocks and (mazeBlocks[(i,j-1)][0] == 1 or mazeBlocks[(i,j-1)][0] == "G") and mazeBlocks[(i,j-1)][1] != 2:
+            temp.append((i,j-1))
+        # top neighbour
+        if (i-1,j) in mazeBlocks and (mazeBlocks[(i-1,j)][0] == 1 or mazeBlocks[(i-1,j)][0] == "G") and mazeBlocks[(i-1,j)][1] != 2:
+            temp.append((i-1,j))
+        # bottom neighbour
+        if (i+1,j) in mazeBlocks and (mazeBlocks[(i+1,j)][0] == 1 or mazeBlocks[(i+1,j)][0] == "G") and mazeBlocks[(i+1,j)][1] != 2:
+            temp.append((i+1,j))
+        # if temp has something, select the last node(or any one) and put it in the stack
+        if temp:
+            stack.append(( temp[(len(temp)-1)][0] , temp[(len(temp)-1)][1] ))
+        else:
+            stack.pop()
+    return False
+print(dfs())
 
 
 
 
-
-
-
-
-# A* algorithm
+# mannhatan Distance
 for i in range(1, mazeSize + 1):
     for j in range(1, mazeSize + 1):
         mazeBlocks[(i,j)][1] = abs(i - mazeSize) + abs(j - goal)
-        
+# printing the 
+k = 0
 for i in mazeBlocks.values():
     print(i[1], end=" ")
     k += 1
     if k == mazeSize:
         print("")
         k = 0
+print("\n")
+
+'''
+# A* algorithm
+
 i,j = 1, initial
 
 open = []
@@ -131,40 +134,10 @@ while True:
     open[index] = current
     break
 print(open)    
-             
+'''
 
-# DFS to guarantee a solution
-#
-#
 
-'''
-'''
-start = (1,initial)
-stack = []
-stack.append(start)
-final = False
-while not final:
-    temp = []
-    # Specify the indexes of the last visited node
-    i,j = stack[len(stack)-1][0] , stack[len(stack)-1][1]
-    # Add the neighbours to the temp list if they exist and they are obstacles
-    if (i+1,j) in mazeBlocks and mazeBlocks[(i+1,j)][0] == 1 and mazeBlocks[(i+1,j)][1] != 2:
-        temp.append((i+1,j))
-    if (i-1,j) in mazeBlocks and mazeBlocks[(i-1,j)][0] == 1 and mazeBlocks[(i+1,j)][1] != 2:
-        temp.append((i-1,j))
-    if (i,j+1) in mazeBlocks and mazeBlocks[(i,j+1)][0] == 1 and mazeBlocks[(i+1,j)][1] != 2:
-        temp.append((i,j+1))
-    if (i,j-1) in mazeBlocks and mazeBlocks[(i,j-1)][0] == 1 and mazeBlocks[(i+1,j)][1] != 2:
-        temp.append((i,j-1))
-    # if there are no neighbours that are obstacles, do not visit a new node and remove last visited node
-    if temp:
-        randomNode = random.choice(temp)
-        mazeBlocks[randomNode][1] = 2
-        stack.append(randomNode)   
-        if randomNode == (5,goal):
-            final = True 
-            print("We have reached to the goal")
-'''
+
    
    
 
@@ -172,67 +145,4 @@ while not final:
         
     
 
-# implement DFS to create a path from top left (1,1)[satrting state] to bottom right (8,8)
-   
-'''   
 
-start = (1,1)
-mazeBlocks[start][0] = 1
-stack = []
-stack.append(start)
-final = False
-while not final:
-    temp = []
-    # Specify the indexes of the last visited node.
-    i,j = stack[len(stack)-1][0] , stack[len(stack)-1][1]
-    # Add the neighbours to the temp list if they exist and they are obstacles
-    if (i+1,j) in mazeBlocks and mazeBlocks[(i+1,j)][0] == 0:
-        temp.append((i+1,j))
-    if (i-1,j) in mazeBlocks and mazeBlocks[(i-1,j)][0] == 0:
-        temp.append((i-1,j))
-    if (i,j+1) in mazeBlocks and mazeBlocks[(i,j+1)][0] == 0:
-        temp.append((i,j+1))
-    if (i,j-1) in mazeBlocks and mazeBlocks[(i,j-1)][0] == 0:
-        temp.append((i,j-1))
-    # if there are no neighbours that are obstacles, do not visit a new node and remove last visited node
-    if temp:
-        randomNode = random.choice(temp)
-        mazeBlocks[randomNode][0] = 1
-        stack.append(randomNode)   
-        if randomNode == (mazeSize,mazeSize):
-            final = True 
-    else:
-        stack.pop()
-# print the current 8x8 maze
-k = 0
-for i in mazeBlocks.values():
-    print(i[0], end=" ")
-    k += 1
-    if k == mazeSize:
-        print("")
-        k = 0
-
-print("\n")
-'''
-    
-# Manhattan distance as a hueristic value, Ali will do it :)
-'''
-for i in range(1, mazeSize + 1):
-    for j in range(1, mazeSize + 1):
-        mazeBlocks[(i,j)][1] = abs(i - mazeSize) + abs(j - mazeSize)
-'''
-
-'''
-Print maze in terms of huerstic values
-k = 0
-for i in mazeBlocks.values():
-    print(i[1], end=" ")
-    k += 1
-    if k == mazeSize:
-        print("")
-        k = 0
-'''
-
-
-
-# starting with A*
