@@ -1,5 +1,6 @@
-# Husain Ali Merza - 202100358
-# Mohammed Jaffar - 20217999
+
+           # Husain Ali Merza - 202100358
+# Mohammed Jaafar - 20217999
 # Ali Sami - 202102423
 import random
 
@@ -17,7 +18,7 @@ mazeCreation()
 
 def mazeGenerator(): # Generate maze row by row
     for i in range(1, 5 + 1):
-        obstacle = random.randint(1, 3)  # Random number of obstacles per row (min 1 and max 3)
+        obstacle = random.randint(1, 3)  # Random number of obstacles per row (minumum 1 and max 3)
         path = 5 - obstacle # Remaining path number per row
         while path > 0: # Creating path cells in a row
             currentRandom = random.randint(1, 5) # select a random place to set as path
@@ -168,16 +169,21 @@ i,j = 1, initial # i and j simulates our position in the A* algorithm (the cell 
 open = [] # open list
 close = [((i,j), mazeBlocks[(i,j)][1])] # closed list
 path = "" # This will contain the optimal path
-g = 0
+gClosed = {(i,j): 0}
+# check if (i,j) exist in open or close!
 def checker(a,b,lists):
     for h in range(len(lists)):
         if a == lists[h][0][0] and b == lists[h][0][1]:
             return h
     return -1
 
+
+    
+# I write these two variables, to save the index of the parent of last appended node.
+# [After sorting the open list and add the node from open to close, give me the parent of that node] 
+ 
+
 while True:
-    g += 1
-    continuation = True
     if mazeBlocks[(i,j)][0] == "G": # If we are at the goal position end loop
         optimalPath(close)
         print("We have reached to the goal")
@@ -186,31 +192,30 @@ while True:
     # Check Top neighbour
     if (i+1,j) in mazeBlocks and (mazeBlocks[(i+1,j)][0] == 1 or mazeBlocks[(i+1,j)][0] == "G") and \
             checker(i+1,j,open) == -1 and checker(i+1,j,close) == -1:
-        open.append(((i+1,j), mazeBlocks[(i+1,j)][1]+g)) #  close[checker(i,j,close)][1]+1)
-        continuation = False
+        open.append(((i+1,j), mazeBlocks[(i+1,j)][1] + gClosed[(i,j)] + 1)) #  close[checker(i,j,close)][1]+1)
     # Check Bottom neighbour
     if (i-1,j) in mazeBlocks and (mazeBlocks[(i-1,j)][0] == 1 or mazeBlocks[(i-1,j)][0] == "G") and \
                 checker(i-1,j,open) == -1 and checker(i-1,j,close) == -1:
-        open.append(((i-1,j), mazeBlocks[(i-1,j)][1]+g))
-        continuation = False
+        open.append(((i-1,j), mazeBlocks[(i-1,j)][1]+ gClosed[(i,j)] + 1))
     # Check Right neighbour
     if (i,j+1) in mazeBlocks and (mazeBlocks[(i,j+1)][0] == 1 or mazeBlocks[(i,j+1)][0] == "G") and \
                 checker(i,j+1,open) == -1 and checker(i,j+1,close) == -1:
-        open.append(((i,j+1), mazeBlocks[(i,j+1)][1]+g))
-        continuation = False
+        open.append(((i,j+1), mazeBlocks[(i,j+1)][1]+ gClosed[(i,j)] + 1))
     # Check Left neighbour
     if (i,j-1) in mazeBlocks and (mazeBlocks[(i,j-1)][0] == 1 or mazeBlocks[(i,j-1)][0] == "G") and \
                 checker(i,j-1,open) == -1 and checker(i,j-1,close) == -1:
-        open.append(((i,j-1), mazeBlocks[(i,j-1)][1]+g))
-        continuation = False
-
-    for c in range(len(open)): # Go through the open list to make min at the start
-        min = open[0][1]
+        open.append(((i,j-1), mazeBlocks[(i,j-1)][1] + gClosed[(i,j)] + 1))
+        
+        
+        
+    
+    for c in range(len(open)): # Go through the open list to make minumum at the start
+        minumum = open[0][1]
         index = 0
         i = open[0][0][0]
         j = open[0][0][1]
-        if open[c][1] < min: # This will find the minimum and swap it with the start item of open list
-            min = open[c][1]
+        if open[c][1] < minumum: # This will find the minumumimum and swap it with the start item of open list
+            minumum = open[c][1]
             index = c
             current = open[0]
             open[0] = open[index]
@@ -219,18 +224,30 @@ while True:
             i = open[0][0][0] #position[0]
             j = open[0][0][1] #position[1]
 
-    if continuation:
-        for m in reversed(range(len(close))):
-            if (abs(open[0][0][0] - close[m][0][0]) == 1 and open[0][0][1] - close[m][0][1] == 0) or \
-                    (open[0][0][0] - close[m][0][0] == 0 and abs(open[0][0][1] - close[m][0][1]) == 1):
-                g = close[m][1] - mazeBlocks[(close[m][0][0],close[m][0][1])][1]
-
+    
+    # before sending it to close. show me which neighbour of this node has the best g.
+    tempG = []
+    if (i+1,j) in gClosed:
+        tempG.append(gClosed[(i+1,j)])
+    if (i-1,j) in gClosed:
+        tempG.append(gClosed[(i-1,j)])
+    if (i,j+1) in gClosed:
+        tempG.append(gClosed[(i,j+1)])
+    if (i,j-1) in gClosed:
+        tempG.append(gClosed[(i,j-1)])
+    currentG = min(tempG)
+    
     close.append(open[0]) # Add the best next state to close list
+   
+    # what is the g value of the parent of last visited node
+    gClosed[open[0][0]] = currentG + 1
+    
+    
+    
     #mazeBlocks[(open[0][0])][1] = 22 # Avoid infinite loops by changing the heuristic value of the visited state
     print(open, "Open list")
     del open[0] # Remove the best next state from open list
     #print(close, "Closed list")
     #optimalPath(close)
-    print(open, "Open list")
 
 # DON'T FORGET AFTER FINISHING TO MODIFY A* TO CHECK IF YOU NEED TO UPDATE A VISITED STATE HEURISTIC
