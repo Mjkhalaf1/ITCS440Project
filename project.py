@@ -1,6 +1,8 @@
-# Husain Ali Merza - 202100358
-# Mohamed Jaafar - 202107999
-# Ali Sami - 202102423
+# ITCS440 PROJECT RANDOM MAZE 2024/2025 Semester 1
+
+# Husain Ali Merza - 202100358 / Section 1
+# Mohamed Jaafar - 202107999 / Section 1
+# Ali Sami - 202102423 / Section 1
 import random
 
 mazeSize = 5
