@@ -4,10 +4,9 @@
 # Mohamed Jaafar - 202107999 / Section 1
 # Ali Sami - 202102423 / Section 1
 import random
-
-mazeSize = 5
+mazeSize = random.randint(5,10)
 mazeBlocks = {}
-pathLetter = ['A','B','C','D','E']
+pathLetter = ['A','B','C','D','E','F','G','H','I','J']
 
 
 # create a 8x8 maze grid full of obstacles. A key-value pair will be assigned to every block of this maze.
@@ -23,24 +22,24 @@ mazeCreation()
 
 
 def mazeGenerator():  # Generate maze row by row
-    for i in range(1, 5 + 1):
+    for i in range(1, mazeSize + 1):
         obstacle = random.randint(1, 3)  # Random number of obstacles per row (minumum 1 and max 3)
-        path = 5 - obstacle  # Remaining path number per row
+        path = mazeSize - obstacle  # Remaining path number per row
         while path > 0:  # Creating path cells in a row
-            currentRandom = random.randint(1, 5)  # select a random place to set as path
+            currentRandom = random.randint(1, mazeSize)  # select a random place to set as path
             if mazeBlocks[(i, currentRandom)][0] == 0:  # Ensure random place selected is not a path in the first place
                 mazeBlocks[(i, currentRandom)][0] = 1  # Set as path
                 path -= 1
     while True:  # Select a random obstacle cell in the first row to be the initial state
-        initial = random.randint(1, 5)
+        initial = random.randint(1, mazeSize)
         if (mazeBlocks[(1, initial)][0]) == 0:
             mazeBlocks[(1, initial)][0] = "I"
             break
 
     while True:  # Select a random obstacle cell in the last row to be the goal
-        goal = random.randint(1, 5)
-        if (mazeBlocks[(5, goal)][0]) == 0:
-            mazeBlocks[(5, goal)][0] = "G"
+        goal = random.randint(1, mazeSize)
+        if (mazeBlocks[(mazeSize, goal)][0]) == 0:
+            mazeBlocks[(mazeSize, goal)][0] = "G"
             break
 
 
