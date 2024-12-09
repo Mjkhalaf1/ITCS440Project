@@ -1,15 +1,14 @@
-# ITCS440 PROJECT RANDOM MAZE 2024/2025 Semester 1
-
-# Husain Ali Merza - 202100358 / Section 1
-# Mohamed Jaafar - 202107999 / Section 1
-# Ali Sami - 202102423 / Section 1
+# Husain Ali Merza - 202100358
+# Mohamed Jaafar Abdulla - 202107999
+# Ali Sami - 202102423
 import random
-mazeSize = random.randint(5,9)
+
+mazeSize = 5
 mazeBlocks = {}
-pathLetter = ['A','B','C','D','E','F','G','H','I']
+pathLetter = ['A','B','C','D','E']
 
 
-# create a maze grid full of obstacles. A key-value pair will be assigned to every block of this maze.
+# create a 5x5 maze grid full of obstacles. A key-value pair will be assigned to every block of this maze.
 # The key is the index of this block, and the value is a list of two values.
 # The first value of the list is either 0 (obstacle) or 1 (passage). The second value is heuristic value (initially -1).
 def mazeCreation():
@@ -22,24 +21,24 @@ mazeCreation()
 
 
 def mazeGenerator():  # Generate maze row by row
-    for i in range(1, mazeSize + 1):
-        obstacle = random.randint(1, int(mazeSize/2)+1)  # Random number of obstacles per row (minumum 1 and max 3)
-        path = mazeSize - obstacle  # Remaining path number per row
+    for i in range(1, 5 + 1):
+        obstacle = random.randint(1, 3)  # Random number of obstacles per row (minumum 1 and max 3)
+        path = 5 - obstacle  # Remaining path number per row
         while path > 0:  # Creating path cells in a row
-            currentRandom = random.randint(1, mazeSize)  # select a random place to set as path
+            currentRandom = random.randint(1, 5)  # select a random place to set as path
             if mazeBlocks[(i, currentRandom)][0] == 0:  # Ensure random place selected is not a path in the first place
                 mazeBlocks[(i, currentRandom)][0] = 1  # Set as path
                 path -= 1
     while True:  # Select a random obstacle cell in the first row to be the initial state
-        initial = random.randint(1, mazeSize)
+        initial = random.randint(1, 5)
         if (mazeBlocks[(1, initial)][0]) == 0:
             mazeBlocks[(1, initial)][0] = "I"
             break
 
     while True:  # Select a random obstacle cell in the last row to be the goal
-        goal = random.randint(1, mazeSize)
-        if (mazeBlocks[(mazeSize, goal)][0]) == 0:
-            mazeBlocks[(mazeSize, goal)][0] = "G"
+        goal = random.randint(1, 5)
+        if (mazeBlocks[(5, goal)][0]) == 0:
+            mazeBlocks[(5, goal)][0] = "G"
             break
 
 
