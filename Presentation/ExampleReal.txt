@@ -1,0 +1,13 @@
+A | 1 | I | 1 | 1 | 0 |
+B | 1 | 1 | 1 | 1 | 1 |
+C | 0 | 1 | 1 | 0 | 1 |
+D | 1 | 1 | 0 | 1 | 1 |
+E | G | 1 | 1 | 1 | 0 |
+
+Closed List: [A2:5, A1:4, A3:6, B1:3, B2:4, C2:3, D2:2, D1:1, E1:0]
+		I						G
+
+PathList:[]
+
+
+Without Optimization IF condition -> PathList: [E1-D1-D2-C2-B2-B1-A1-A2]
